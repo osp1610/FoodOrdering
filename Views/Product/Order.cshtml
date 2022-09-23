@@ -1,0 +1,57 @@
+﻿
+@model OrderItem;
+
+@{
+    ViewData["Greeting1"]= "Welcome to the";
+    ViewData["Greeting2"] = "Hotel-Name";
+}
+
+ 
+<body onload="window.location='#heading'">
+
+    <div class="w-25 container align-self-center">
+
+        <h2 id="heading" class="display-5 text-center">Confirm Order Details</h2> 
+
+        <div class="card">
+            <div class="card-body">
+
+                @using(Html.BeginForm("ConfirmOrder","Product", FormMethod.Post)) {
+                    <h5 class="card-title">@Model.Name</h5>
+
+                    <p class="card-text">
+                        TODO: Here Goes the description for the product
+                    </p>
+
+                     <label>Total Cost - </label>
+                    <input name="cost" type="number" value="@Model.Cost" readonly />
+
+                    <br />
+
+                    <label>Qty (1-9) - </label>
+                    <input name="qty" min=1 max=9 readonly type="number" value="@Model.Qty" />
+
+                    <label>Address - </label>
+                    <textarea name="address" readonly >
+                        @Model.Address
+                    </textarea>
+
+                    <input name="uid" type="hidden" value="@Model.UserName"/>
+                    <input name="id" type="hidden" value="@Model.Id"/>
+                    <input name="MenuItemName" type="hidden" value="@Model.Name"/>
+                    <input type="submit" class="btn w-100 btn-primary" value="Confirm Order" />
+
+                    <a class="btn w-100 btn-outline-primary" href="javascript: history.go(-1)"> 
+                        Go Back
+                        </a>
+
+                    
+                }
+                <p class="card-text"><small class="text-muted">Add address on next page</small></p>
+            </div>
+        </div>
+
+    </div>
+
+
+</body>

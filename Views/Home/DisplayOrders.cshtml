@@ -1,0 +1,18 @@
+﻿
+@model IEnumerable<OrderItem>
+
+    @{
+        
+    }
+
+@foreach(OrderItem m in Model)
+{
+    <p class="container w-25">
+
+        @m.Id -
+        @m.Name - @m.Cost
+
+    </p>
+
+    
+}

@@ -1,0 +1,59 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model User
+
+<body
+onload="window.location='#heading';"    
+>
+
+    <h2 id="heading" class="display-5 text-center">Log into your Account</h2> 
+
+   
+
+    @{
+       ViewData["Greeting1"] = "Log In For";
+       ViewData["Greeting2"] = " Better Experince";
+    }
+    
+    <div class="w-25 container align-self-center ">
+
+         @if (TempData["message"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @TempData["message"]
+            </div>
+        }
+
+        @if (ViewData["login-message"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewData["login-message"]
+            </div>
+        }
+
+        <form method="post" class="mt-5 mb-5" asp-action="Login">    
+            <div class="mb-5 row">
+
+                <label asp-for="Name" class="form-label center">
+                </label>
+                <input type="text" asp-for="Name"  placeholder="User Name" class="form-control center" />
+                <span asp-validation-for="Name" class="text-danger mb-3"></span>
+
+                <label asp-for="Password" class="form-label center">
+                </label>
+                <input type="password" asp-for="Password" placeholder="Password" class="form-control center" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+
+            </div>
+    
+        <input type="submit" class="btn btn-outline-primary w-100" value="Log In" />
+
+    </form>
+
+    </div>
+
+ </body>

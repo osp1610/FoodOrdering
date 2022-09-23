@@ -1,0 +1,62 @@
+﻿
+
+@model User;
+
+<body onload="window.location='#heading';">
+
+    <h2 id="heading" class="display-5 text-center">Create your Account</h2> 
+
+    @{
+        ViewData["Greeting1"] = "Create";
+        ViewData["Greeting2"] = " Account";
+    }
+    
+    <div class="w-25 container align-self-center ">
+
+        @if(ViewData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+            
+                Failed to create account: @ViewData["ErrorMessage"]
+
+            </div>
+        }
+            
+
+        @using(Html.BeginForm("RegisterUser","Home"))
+        {
+            
+            <form class="mt-5 mb-5" >    
+                <div class="mb-5 row">
+
+                    <label class="form-label center"> User Name
+                    </label>
+                    <input type="text" name="Name" placeholder="User Name" class="form-control center" />
+
+
+                    <label class="form-label center"> Password
+                    </label>
+                    <input type="password" name="Password" placeholder="Password" class="form-control center" />
+                
+                    <label class="form-label center"> Confirm Password
+                    </label>
+                    <input type="password" name="cnfPassword" placeholder="Confirm Password" class="form-control center" />
+
+
+                </div>
+            
+                <input type="submit" class="btn btn-outline-primary w-100" value="Create Account" />
+               @* <a asp-action="RegisterUser" asp-controller="Home">
+
+                </a>*@
+
+            </form>
+
+        }
+
+    </div>
+
+</body>
+
+
+

@@ -1,0 +1,179 @@
+﻿
+@{
+    int userID = 0;
+    string UserName = null;
+    ViewData["Title"] = "Index";
+    IEnumerable<MenuItem> MenuList = ViewData["MenuList"] as IEnumerable<MenuItem>;
+
+
+    //TempData["userName"];
+    userID = Convert.ToInt32( TempData["userId"]);
+    if(TempData["userName"] != null)
+    {
+        UserName = TempData["userName"].ToString();
+        ViewData["uid"] = TempData["userId"];
+    }
+
+    Console.Write("name -----------------------" + UserName);
+
+}
+
+   
+
+<style>
+
+        .carousel-content {
+          position: absolute;
+          bottom: 50%;
+          left: 10%;
+          z-index: 20;
+          color: white;
+          text-shadow: 0 1px 2px rgba(0,0,0,.6);
+           }
+
+        .hover-1 img {
+            width: 105% !important;
+            position: absolute;
+            top: 0;
+            Top: -5% !important ;
+            transition: all 0.4s;
+        }
+
+        .hover-1-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            z-index: 99;
+            transition: all 0.4s;
+
+        }
+
+        .hover-1-description {
+            transform: translateY(20px);
+            transition: all 0.4s;
+            opacity: 0;
+        }
+
+        .hover-1:hover .hover-1-content {
+            bottom: 28px;
+           
+        }
+
+        .hover-1:hover .hover-1-description {
+            opacity: 1
+        }
+
+        .hover-1:hover img {
+            Top: 0 !important;
+        }
+
+        .hover-1:hover .hover-overlay {
+            background: rgb(0, 0, 0, 0.79);
+        }
+
+        .hover {
+            overflow: hidden;
+            position: relative;
+            padding-bottom: 60%;
+        }
+
+        .hover-overlay {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 90;
+            transition: all 0.4s;
+            opacity: 90;
+            background: rgb(0, 0, 0, 0.2);
+        }
+
+
+        .hover-content {
+            position: relative;
+            z-index: 99;
+        }
+
+
+
+        .footer-link{
+            text-decoration:none;
+            color:aliceblue !important;
+            transition: all 0.3s;
+        }
+        
+        .footer-link:hover{
+            text-decoration:none;
+            color:cornflowerblue !important;
+        }
+
+
+</style>
+
+     <div class="carousel-content">
+    @if (!string.IsNullOrEmpty(UserName))
+    {
+       ViewData["Greeting1"] = "Welcome, ";
+       ViewData["Greeting2"] = UserName ;
+    }
+    else
+    {
+      ViewData["Greeting1"]= "Welcome to the";
+      ViewData["Greeting2"] = "Hotel-Name";
+    }
+    </div>
+
+
+
+<div class="container">
+    @if(MenuList == null)
+    {
+        <h2 class="font-weight-bold text-center mb-0 pt-5">Menu</h2>
+        <p class="font-italic text-center text-muted mb-4">Sorry Nothing available right now</p>
+    }
+    else
+    {
+        <h2 class="font-weight-bold text-center pt-5">Menu</h2>
+        <p class="font-italic text-center text-muted">Select the any of delicious dish to continue with order</p>
+        <div class="row">
+
+                @foreach(MenuItem m in MenuList)
+                {
+                    <div class="col-4 mt-4">
+                   <a asp-action="DisplaySingleProduct"
+                    asp-route-id="@m.Id" asp-route-uid="@userID"
+                    asp-controller="Product">
+
+                            <div class="hover-1 hover text-white rounded">
+                                <img src = "@m.ImgUrl" alt="@m.Name"/>
+                                <div class="hover-overlay"></div>
+                                <div class="hover-1-content px-5 py-4">
+                                    <h3 class="hover-1-title text-uppercase font-weight-bold mb-0"> 
+                                        <span class="font-weight-light">
+                                        @*Light heading*@    
+                                        </span>@m.Name</h3>
+                                    <p class="hover-1-description font-weight-light mb-0">
+                                        TODO: Description here
+                                    </p>
+                                </div>
+                            </div>
+
+                        </a>
+                    </div>
+                
+                } 
+                @*end of for*@
+
+        </div>    
+
+    }
+    @*end of else*@
+</div>
+
+
+
+
+
+
+
