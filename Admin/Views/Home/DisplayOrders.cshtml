@@ -1,0 +1,55 @@
+﻿@using LoginPage.Models
+
+@model List<OrderItem> ;
+
+<div class= "container">
+
+    <h2 class="display-3 align-self-center">
+        Orders 
+    </h2>
+
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th> ID </th>
+                <th> Item Name </th>
+                <th> Qty </th>
+                <th> Cost </th>
+                <th> UserName </th>
+                <th> Address </th>
+                <th> Status </th>
+                <th> Action </th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach(OrderItem o in Model){
+        
+                <tr>
+                    <td> @o.Id </td>
+                    <td> @o.Name </td>
+                    <td> @o.Qty </td>
+                    <td> @o.Cost </td>
+                    <td> @o.UserName </td>
+                    <td> @o.Address </td>
+                    <td> @o.OrderStatus </td>
+                    <td>
+
+                        <a class="btn btn-outline-secondary"  href="ChangeStatusToProcessing/@o.Id" > Processing </a>
+                        <a class="btn btn-outline-success"  href="ChangeStatusToDelivered/@o.Id" > Delivered </a>
+                        <a class="btn btn-outline-danger"  href="ChangeStatusToCancelled/@o.Id" > Cancelled </a>
+                        
+                    </td>
+                </tr>
+    
+            }
+
+        </tbody>
+
+    </table>
+
+    
+
+</div>

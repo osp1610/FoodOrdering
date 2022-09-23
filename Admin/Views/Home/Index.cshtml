@@ -1,0 +1,62 @@
+﻿
+@model AdminUser;
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+
+    .carousel-content {
+  position: absolute;
+  bottom: 50%;
+  left: 10%;
+  z-index: 20;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0,0,0,.6);
+}
+
+</style>
+
+   @*  <div class="carousel-content">
+    @if (Model!=null && !string.IsNullOrEmpty(Model.Name))
+    {
+        <h3 class="display-4">
+            Welcome, @Model.Name
+        </h3>
+    }
+    else
+    {
+        <h3 class="display-4">
+            Welcome, Login for better experience
+        </h3>
+    }*@
+</div>
+
+
+
+ <div class="w-25 container align-self-center">
+
+     <h7 class="display-4"> Admin Login </h7>
+     
+     <form method="post" class="mt-5 mb-5" asp-action="LoginAdmin">    
+            <div class="mb-5 row">
+
+                <label asp-for="Name" class="form-label center">
+                </label>
+                <input type="text" asp-for="Name"  placeholder="User Name" class="form-control center" />
+                <span asp-validation-for="Name" class="text-danger mb-3"></span>
+
+                <label asp-for="Password" class="form-label center">
+                </label>
+                <input type="password" asp-for="Password" placeholder="Password" class="form-control center" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+
+            </div>
+    
+        <input type="submit" class="btn btn-outline-primary w-100" value="Log In" />
+
+    </form>
+
+</div>
+
+
