@@ -1,0 +1,30 @@
+﻿@{
+    
+}
+@*
+@{
+     ViewData["Greeting1"]= "Error:";
+      ViewData["Greeting2"] = "";
+}*@
+
+
+@if(@ViewData["Message"] != null)
+{
+    
+    ViewData["Greeting1"]= "Error:";
+    ViewData["Greeting2"] = @ViewData["Message"];
+
+    <h2 id="heading" class="display-5 text-center">Error: @ViewData["Message"]</h2> 
+}else{
+
+    ViewData["Greeting1"]= "Error:";
+    ViewData["Greeting2"] = "";
+
+}else if(ViewData["SuccessMEssage"] != null){
+    
+    ViewData["Greeting1"]= "Success:";
+    ViewData["Greeting2"] = @ViewData["SuccessMEssage"];
+
+}
+
+

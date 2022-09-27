@@ -2,29 +2,34 @@
 using LoginPage.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-using System.Diagnostics;
 
 namespace Admin.Controllers
 {
     public class HomeController : Controller
     {
         private const string ConnectionString = "Data Source=HJSZL000057;Initial Catalog=CustomerDb;Integrated Security=True;";
-        public SqlConnection conn = new SqlConnection(ConnectionString);
-        public static List<AdminUser> adminUsers = new List<AdminUser>();
-        public static List<OrderItem> OrderList = new List<OrderItem>();
+
+        private static SqlConnection _conn = new SqlConnection(ConnectionString);
+        private static List<AdminUser> _AdminUsers = new List<AdminUser>();
+        private static List<OrderItem> _Orders = new List<OrderItem>();
 
         public IActionResult Index()
         {
 
-            SqlCommand cmd = new SqlCommand("select * from AdminUsers", conn);
-            conn.Open();
+            string CmdText = "select * from AdminUsers";
+            SqlCommand cmd = new SqlCommand(CmdText, _conn);
+            _conn.Open();
             SqlDataReader sr = cmd.ExecuteReader();
+
             while (sr.Read())
             {
-                AdminUser user = new AdminUser(Convert.ToInt32(sr["Id"]),sr["Name"].ToString(), sr["Password"].ToString());
-                adminUsers.Add(user);
+                AdminUser user = new AdminUser(
+                    Convert.ToInt32(sr["Id"]),
+                    sr["Name"].ToString(),
+                    sr["Password"].ToString());
+                _AdminUsers.Add(user);
             }
-            conn.Close();
+            _conn.Close();
 
             return View();
         }
@@ -34,19 +39,19 @@ namespace Admin.Controllers
             return View();
         }
 
-        public IActionResult DisplayOrders()
+        public IActionResult DisplayAllOrders()
         {
-            OrderList.Clear();
-            SqlCommand cmd = new SqlCommand("select * from Orders", conn);
-            conn.Open();
+            _Orders.Clear();
+
+            const string CmdText = "select * from Orders";
+            SqlCommand cmd = new SqlCommand(CmdText, _conn);
+            _conn.Open();
             SqlDataReader sr = cmd.ExecuteReader();
+            
             while (sr.Read())
             {
-                int index = 0;
-                /*OrderItem user = new OrderItem(sr["id"], 
-                    sr["Name"], sr["qty"], sr["cost"], sr["userName"], sr["address"],);*/
 
-                OrderItem item = new OrderItem();  
+                OrderItem item = new OrderItem();
                 item.Id = Convert.ToInt32(sr["Id"]);
                 item.Name = sr["Name"].ToString();
                 item.Qty = sr.GetInt32(2);
@@ -54,80 +59,94 @@ namespace Admin.Controllers
                 item.UserName = sr.GetString(4);
                 item.Address = sr.GetString(5);
                 item.OrderStatus = sr.GetString(6);
-                
-                OrderList.Add(item);
-            }
-            conn.Close();
 
-            return View(OrderList);
+                _Orders.Add(item);
+            }
+
+            _conn.Close();
+
+            return View(_Orders);
         }
 
         [HttpPost]
         public IActionResult LoginAdmin(AdminUser admin)
         {
-            foreach (AdminUser a in adminUsers)
+
+            if(admin == null)
+            {
+                throw new ArgumentNullException("Admin is null");
+            }
+
+            if((_AdminUsers.FirstOrDefault(x => x.Id == admin.Id && x.Name == admin.Name) == null)){ 
+                
+                    return RedirectToAction("DisplayAllOrders");
+
+            }
+
+           /* foreach (AdminUser a in AdminUsers)
             {
 
-                if( a.Name == admin.Name && a.Password == admin.Password)
+                if (a.Name == admin.Name && a.Password == admin.Password)
                 {
-                    return RedirectToAction("DisplayOrders");  
 
                 }
-            }
+            }*/
             return Content("Error");
         }
 
 
-        public IActionResult ChangeStatusToProcessing(int id)
+        public IActionResult ChangeStatusToProcessing(int OrderId)
         {
 
-            conn = new SqlConnection(ConnectionString);
+            _conn = new SqlConnection(ConnectionString);
 
+            string CmdText = "UPDATE Orders SET OrderStatus = '" + OrderItem.Order_put + "' WHERE Id = " + OrderId;
+            SqlCommand cmd = new SqlCommand(CmdText, _conn);
 
-            string query = "UPDATE Orders SET OrderStatus = '"+OrderItem.Order_put+"' WHERE Id = "+id;
-            SqlCommand cmd = new SqlCommand(query, conn);
-            conn.Open();
+            _conn.Open();
             int NoOfRowsAffexted = cmd.ExecuteNonQuery();
-            conn.Close();
+            _conn.Close();
+            
             if (NoOfRowsAffexted < 0)
             {
                 return Content("Error: No Update Performed");
             }
-            return RedirectToAction("DisplayOrders");
+            
+            return RedirectToAction("DisplayAllOrders");
         }
-        public IActionResult ChangeStatusToDelivered(int id)
+        public IActionResult ChangeStatusToDelivered(int OrderId)
         {
 
-            conn = new SqlConnection(ConnectionString);
+            _conn = new SqlConnection(ConnectionString);
 
 
-            string query = "UPDATE Orders SET OrderStatus = '" + OrderItem.Order_del + "' WHERE Id = " + id;
-            SqlCommand cmd = new SqlCommand(query, conn);
-            conn.Open();
+            string CmdText = "UPDATE Orders SET OrderStatus = '" + OrderItem.Order_del + "' WHERE Id = " + OrderId;
+            SqlCommand cmd = new SqlCommand(CmdText, _conn);
+            _conn.Open();
             int NoOfRowsAffexted = cmd.ExecuteNonQuery();
-            conn.Close();
+            _conn.Close();
             if (NoOfRowsAffexted < 0)
             {
                 return Content("Error: No Update Performed");
             }
-            return RedirectToAction("DisplayOrders");
+            return RedirectToAction("DisplayAllOrders");
 
         }
-        public IActionResult ChangeStatusToCancelled(int id)
+        public IActionResult ChangeStatusToCancelled(int OrderId)
         {
-            conn = new SqlConnection(ConnectionString);
+            _conn = new SqlConnection(ConnectionString);
 
 
-            string query = "UPDATE Orders SET OrderStatus = '" + OrderItem.Order_cancelled + "' WHERE Id = " + id;
-            SqlCommand cmd = new SqlCommand(query, conn);
-            conn.Open();
+            string CmdText = "UPDATE Orders SET OrderStatus = '" + OrderItem.Order_cancelled + "' WHERE Id = " + OrderId;
+            SqlCommand cmd = new SqlCommand(CmdText, _conn);
+            _conn.Open();
             int NoOfRowsAffexted = cmd.ExecuteNonQuery();
-            conn.Close();
+            _conn.Close();
             if (NoOfRowsAffexted < 0)
             {
                 return Content("Error: No Update Performed");
             }
-            return RedirectToAction("DisplayOrders");
+            return RedirectToAction("DisplayAllOrders");
         }
 
 

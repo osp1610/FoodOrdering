@@ -5,6 +5,7 @@
         public const string Order_put = "ORDER_PROCESSING";
         public const string Order_del = "ORDER_DELIVERD";
         public const string Order_cancelled = "ORDER_CANCELLED";
+        public const string Order_pending = "PAYMENT_PENDING";
         
         public int Id { get; set; }
         public string Name { get; set; }

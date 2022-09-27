@@ -25,7 +25,7 @@
             <img class="card-img-top" src="@Model.ImgUrl" alt="Card image cap">
             <div class="card-body">
 
-                @using(Html.BeginForm("PurOrderFor","Product", FormMethod.Post)) {
+                @using(Html.BeginForm("ContinueWithOrder","Product", FormMethod.Post)) {
                     <h5 class="card-title">@Model.Name</h5>
 
                     <p class="card-text">
@@ -49,9 +49,7 @@
                         
                     }else{
                         <label>Address - </label>
-                        <textarea name="address" >
-
-                        </textarea>
+                        <textarea name="address" ></textarea>
 
 
                         <input name="uid" type="hidden" value="@ViewData["uid"]"/>

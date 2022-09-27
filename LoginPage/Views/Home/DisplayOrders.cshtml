@@ -1,18 +1,76 @@
-﻿
+﻿ 
 @model IEnumerable<OrderItem>
 
-    @{
+
+
+<style>
+
+
+</style>
+
+
+<body onload="window.location='#heading'">
+
+<div class= "container">
+
+    <h2 id="heading" class="display-3 align-self-center">
+        Orders 
+    </h2>
+
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th> ID </th>
+                <th> Item Name </th>
+                <th> Qty </th>
+                <th> Cost </th>
+                <th> UserName </th>
+                <th> Address </th>
+                <th> Status </th>
+                <th> Action </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(OrderItem o in Model){
         
-    }
+                <tr>
+                    <td> @o.Id </td>
+                    <td> @o.Name </td>
+                    <td> @o.Qty </td>
+                    <td> @o.Cost </td>
+                    <td> @o.UserName </td>
+                    <td> @o.Address </td>
+                    <td> @o.OrderStatus </td>
+                    
+                        @if(o.OrderStatus == OrderItem.Order_cancelled)
+                        {
+                            <td>
+                                @*TODO: Refactor dingle page product - replace item id with name Product/DisplaySingleProduct/@o.Id*@
+                                <a class="btn btn-outline-success"  href="#" > Re-Order </a
+                            </td>
+                        }
+                        else{
 
-@foreach(OrderItem m in Model)
-{
-    <p class="container w-25">
+                            <td>
+                                <a class="btn btn-outline-danger"  href="CancelOrder?id=@o.Id" > Cancel Order </a
+                            </td>
+                        
+                            }
 
-        @m.Id -
-        @m.Name - @m.Cost
-
-    </p>
-
+                    
+                </tr>
     
+            }
+
+        </tbody>
+
+    </table>
+
+</div> 
+
+</body>
+
+
 }

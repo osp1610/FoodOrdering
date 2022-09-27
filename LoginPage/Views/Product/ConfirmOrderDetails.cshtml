@@ -16,8 +16,8 @@
         <div class="card">
             <div class="card-body">
 
-                @using(Html.BeginForm("ConfirmOrder","Product", FormMethod.Post)) {
-                    <h5 class="card-title">@Model.Name</h5>
+                @using(Html.BeginForm("MakePayment","Product", FormMethod.Post)) {
+                    <h5 class="card-title">Item - @Model.Name</h5>
 
                     <p class="card-text">
                         TODO: Here Goes the description for the product
@@ -39,7 +39,10 @@
                     <input name="uid" type="hidden" value="@Model.UserName"/>
                     <input name="id" type="hidden" value="@Model.Id"/>
                     <input name="MenuItemName" type="hidden" value="@Model.Name"/>
-                    <input type="submit" class="btn w-100 btn-primary" value="Confirm Order" />
+
+                    
+
+                    <input type="submit" class="btn w-100 btn-primary" value="Make Payment" />
 
                     <a class="btn w-100 btn-outline-primary" href="javascript: history.go(-1)"> 
                         Go Back
